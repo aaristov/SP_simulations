@@ -1,0 +1,86 @@
+% gaussianfft(bits, width(um), phase koeff)
+clear;
+load('/Users/andrey/Downloads/SP_phaseMask.mat');
+RGB=imread('DH_phase.png');
+DH_phase = double(rgb2gray(RGB))/226*2*pi;
+n=9;
+%zmax=500;
+%zstep=20;
+%res=zeros(zmax/zstep+1,2^n);
+%FWHM=zeros(zmax/zstep+1);
+%z=0:zstep:zmax;
+%i=1;
+figure(4);
+Icam=zeros(2^n,2^n);
+tx = (-2^(n-1):1:2^(n-1)-1)/2^n;
+ty=tx';
+fc=200;
+for i=1:2^n
+    for j=1:2^n
+        % Cyl lens
+%         Cyl(i,j)=(tx(i)^2-ty(j)^2)*fc;
+        Cyl(i,j)=((tx(i)-ty(j))^2+0*(tx(i)^2+ty(j)^2))*fc;
+        
+        
+        % Helix beam
+        if ty(j) == 0
+            helix(i,j)=0;
+        elseif ty(j) < 0
+            helix(i,j)=pi-atan(tx(i)/ty(j));
+        else
+            helix(i,j)=pi-atan(tx(i)/ty(j));
+        end
+        
+       
+        %Airy beam
+        A = 1e-6;
+        B = -1e-3;
+        C = B;
+        di=2^(n-1); %x-shift
+        dj=2^(n-1); %y-shift
+         if abs((j-2^(n-1))) < 2^(n-3)
+            Airy(i,j) = A * ((i + j-dj)^3 + (i - (j-dj))^3) + B * (i)^2 + C * (j-dj)^2;
+         else
+             Airy(i,j) = 50*sin(i);
+         end
+    end
+end
+
+%Truncate by rectangle
+% for i=1:length(x)
+%     for j=1:length(y)
+%         if abs((j-2^(n-1))) > 1.5*2^(n-3);
+%             ph(i,j) = 0;
+%         end
+%     end
+% end
+
+inputph=SP_phase;
+%hold on;
+% for z1=0:zstep:zmax
+ for zp=-20:2:+20
+    zp=xp*50;
+    [t,I1,ffimage,ph,I2,fit,width]=gaussianfft2(n,0.1,xp,0,zp,inputph);
+    Icam=Icam+I2;
+ end
+    tum=t.*512*.1; % t in um
+%     res(i,:)=x2;
+%     FWHM(i)=width;
+%     i=i+1;
+    zoom=22;
+    xshift=0;
+    
+    
+% Final camera image 
+imagesc(tum,tum,Icam);
+colormap('hot');
+xlim([-zoom+xshift,zoom+xshift]);
+ylim([-zoom,zoom]);
+title('Beam Waist');
+xlabel('x,um');ylabel('y (um)');
+    
+% Phase profile
+figure(2);imagesc(tx,ty,(ph)); colorbar;
+title('Input phase');
+xlabel('x(micron)'); ylabel('y (micron)');
+colormap('hot');

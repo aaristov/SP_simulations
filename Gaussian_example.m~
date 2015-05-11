@@ -1,0 +1,27 @@
+% 2D Gaussian FFT example
+
+clear
+n=8; %bits
+k=1; %Phase multiplier
+x = (-2^(n-1):1:2^(n-1)-1)/2^n; % Space vector
+y = (-2^(n-1):1:2^(n-1)-1)/2^n; % Space vector
+we = 2^(-n+1); %Width
+%x = exp(-t.^2/(we^2/2)).*exp(-1i*k*t.^2);   % Mag
+%nlph=k*t.^2;
+E0=exp(-(x.^2+y.^2)/(we^2/2)); %2-D Gaussian
+
+figure(1);imagesc(x,y,E0);title('Gaussian Source');xlabel('x(micron)');ylabel('y (micron)'); %normalized source irradiance
+%H=fft2(G);
+%figure(3);imshow(abs(fftshift(H)),[24 100000]);title('Far field amplitude');
+%figure(4);imshow(unwrap(angle(fftshift(H))),[-pi pi]);title('Far field phase');
+% fftB = abs(H)*exp(i*angle(H))
+% G1 = ifft2(H);
+% cmin = min(min(abs(G1)));
+% cmax = max(max(abs(G1)));
+% figure(5); imshow(abs(G1), [cmin cmax]);
+% 
+% AO=zeros(500,2001);
+% AI=cat(2,zeros(1001,1000-b/2),ones(1001,b+1),zeros(1001,1000-b/2));
+% A=cat(1,AO,AI,AO);
+
+%figure(2);imagesc(x,y,A);title('Aperture');xlabel('x(micron)');ylabel('y (micron)');
