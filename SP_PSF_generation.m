@@ -28,25 +28,3 @@ for ind=1:PSFzframes
     tmp=PSFarraysm(:,:,ind);
     PSFarraysmnorm(:,:,ind)=tmp/max(tmp(:));
 end
-%    tum=t.*2^n*.1; % t in um
-%     res(i,:)=x2;
-%     FWHM(i)=width;
-%     i=i+1;
-    %zoom=22;
-    %xshift=0;
-    
-    
-% Final camera image 
-% figure(1);
-% imagesc(tum,tum,PSF(:,:,i-1));
-% % colormap('hot');
-% % xlim([-zoom+xshift,zoom+xshift]);
-% % ylim([-zoom,zoom]);
-% title('Beam Waist');
-% xlabel('x,um');ylabel('y (um)');
-%     
-% Phase profile
-% figure(2);imagesc(tx,ty,(ph)); colorbar;
-% title('Input phase');
-% xlabel('x(micron)'); ylabel('y (micron)');
-% colormap('hot');

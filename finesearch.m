@@ -6,6 +6,9 @@ function [xcoord,ycoord,zcorr] = finesearch(max_C2,ymax_C2,xind,yind,zind,zcorta
     % searching z
     % get the max_C2 line with xind
     zline=max_C2(:,xind); % 50 frames (PSFzframes) long
+    if zind==1;
+        zind=2;
+    end
     zfitarray=[zline(zind-1) zline(zind) zline(zind+1) ];
     zfitscale=[(zind-1) (zind) (zind+1)];
     zfit=fit(zfitscale.',zfitarray','poly2');

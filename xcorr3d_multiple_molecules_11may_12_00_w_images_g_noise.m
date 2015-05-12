@@ -68,12 +68,12 @@ for j=1:testlength    % Number of frames with random x,y,z
     
     % Add Poisson noise
     hold off;
-    NoisyPhotonNum=10000;
+    NoisyPhotonNum=100;
     F=Frame/max(Frame(:));
     Frame=imnoise(F*NoisyPhotonNum*1e-12, 'poisson')*1e12;
     
     %Add gaussian noise
-    noisepower=0; % percent from frame max amplitude
+    noisepower=50; % percent from frame max amplitude
     gnoise=ones(size(Frame));
     ggnoise=imnoise(gnoise,'gauss');
     Frame = Frame + ggnoise*max(Frame(:))*noisepower/100;
