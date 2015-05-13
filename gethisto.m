@@ -8,9 +8,10 @@ function [histox,histoy,histoz] = gethisto(statarray, step)
     zmax=max(max(statarray(6,:)));
     zmin=min(min(statarray(6,:)));
     
-    xvector=int16((xmin*1000:step:xmax*1000)/step)*step;
-    yvector=int16((ymin*1000:step:ymax*1000)/step)*step;
-    zvector=int16((zmin:step:zmax)/step)*step;
+    xvector=int16((xmin*1000-step:step:xmax*1000+step)/step)*step;
+    yvector=int16((ymin*1000-step:step:ymax*1000+step)/step)*step;
+    zvector=int16((zmin-step:step:zmax+step)/step)*step;
+    
     
     histox=zeros(length(xvector),2);
     histoy=zeros(length(yvector),2);
@@ -30,15 +31,10 @@ function [histox,histoy,histoz] = gethisto(statarray, step)
         yind = y0ind+yer10;
         zind = z0ind+zer10;
         
-        if xind>0  && xind<length(xvector)
-            histox(xind,2)=histox(xind,2) + 1;
-        end
-        if yind>0 && yind<length(yvector)
-            histoy(yind,2)=histoy(yind,2) + 1;
-        end
-        if zind>0 && zind<length(zvector)
-            histoz(zind,2)=histoz(zind,2) + 1;
-        end
+        histox(xind,2)=histox(xind,2) + 1;
+        histoy(yind,2)=histoy(yind,2) + 1;
+        histoz(zind,2)=histoz(zind,2) + 1;
+        
         
     end
     
