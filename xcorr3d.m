@@ -104,8 +104,8 @@ for j=1:testlength    % Number of frames with random x,y,z
 %     xfound = horcorind2coord(xind);
 %     yfound = horcorind2coord(yind);
     
-    zerr=zfound - zp;
-    xerr = xfound - xp;
+    zerr=zfound - zp; % in nm
+    xerr = xfound - xp; % in um
     yerr = yfound - yp;
     
     
@@ -117,16 +117,19 @@ for j=1:testlength    % Number of frames with random x,y,z
     indarray(:,j)=[ xind yind zind];
 end
 figure(1);
+subplot(3,1,1);
 plot(statarray(3,:),statarray(6,:),'o');
-xlabel('z coordinate, nm');
+% xlabel('z coordinate, nm');
 ylabel('z error, nm');
 
-figure(2);
+% figure(2);
+subplot(3,1,2);
 plot(statarray(3,:),statarray(4,:),'o');
-xlabel('z coordinate, um');
+% xlabel('z coordinate, um');
 ylabel('x error, um');
 
-figure(3);
+% figure(3);
+subplot(3,1,3);
 plot(statarray(3,:),statarray(5,:),'o');
 xlabel('z coordinate, um');
 ylabel('y error, um');
