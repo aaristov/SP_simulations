@@ -1,6 +1,6 @@
 % draw histos
 
-[histox,histoy,histoz] = gethisto(statarray, 2);
+[histox,histoy,histoz] = gethisto(statarray, 5);
 
 histox1=histox(:,1);
 histox2=histox(:,2);
