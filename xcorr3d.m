@@ -4,7 +4,7 @@ zrange=3000; % range for random zp in nm
 zrangeoffset=0;
 % M=zeros(PSFzframes,'gpuArray'); % Vector for the maximum of xcorr2
 % indM=zeros(PSFzframes,'gpuArray'); % index of maximum of xcorr2
-testlength=11;
+testlength=1;
 % zstatarray=zeros(1,testlength);
 Mmaxfound=zeros(testlength,1);
 M=zeros(PSFzframes,1); % Vector for the maximum of xcorr2
@@ -40,7 +40,7 @@ for j=1:testlength    % Number of frames with random x,y,z
 %     zp=-1200;
       zp = -PSFzrange/2 + (PSFzrange/(testlength-1))*(j-1);
 %       zp=-2500;
-%       zp=0;
+      zp=00;
 %     if testlength>1
 %         zp=zrangeoffset+(j-1)/(testlength-1)*zrange-zrange/2; % Linear zp is set in nm
 %     else
@@ -48,8 +48,14 @@ for j=1:testlength    % Number of frames with random x,y,z
 %     end
 %     xp=(rand()-1/2)*FOV*0.9; % random xp, yp is set in um.
 %     yp=(rand()-1/2)*FOV*0.9;
-    xp=0;
-    yp=0;
+    xind0=int16(rand()*448);
+    yind0=int16(rand()*448);
+    
+    xp = double(xind0-256)/512*FOV*448/512;
+    yp = double(yind0-256)/512*FOV*448/512;
+    
+    xp=0;yp=0;
+    
     %Call PSF drawing tool using generated coordinates
     [t,I1,ffimage,ph,I2,fitting,width]=gaussianfft2(n,0.1,xp,yp,zp,inputph,sphere,truncatecirle);
 %     I2=gpuArray(I2); % Put into GPU the camera frame
@@ -75,22 +81,33 @@ for j=1:testlength    % Number of frames with random x,y,z
     Mstats(:,j)=M; % save M profile
     [Mmax,zindex]=max(M(:)); % Find the maximum M and it's index (basically, its zindex from the set of PSFs)
     
-    [xind,yind] = ind2sub(size(tmp),indM(zindex));
+    [yind,xind] = ind2sub(size(tmp),indM(zindex));
     xfound = horcorind2coord(xind);
     yfound = horcorind2coord(yind);
     
 %     cFrame=cropimage(Frame, int8(xfound),int8(yfound),cropsize);
 %     cFrame = imcrop(I2,[2^(n-1)-cropsize/2,2^(n-1)-cropsize/2,cropsize,cropsize]);
     cFrame = imcrop(I2,[xind-32-cropsize/2,yind-32-cropsize/2,cropsize,cropsize]);
-    
+    imagesc(cFrame);
     for i=1:51
         aux = corrcoef(cFrame,PSFarraysm(:,:,i));r(i)=aux(1,2);
     end
     [corMax(j),zind] = max(r(:));
     zfound = zind2coord(zind,PSFzrange,PSFzframes);
+    
+%     % Search for x,y again knowing zind
+%     PSF=(PSFarraysm(:,:,zind)); % The cropped PSF frame from the library
+%     %PSF=(PSFarraysmnorm(:,:,i)); % The cropped; and normalized PSF frame from the library
+%     tmp=xcorr2(Frame,PSF);
+%     [~, xyind] = max(tmp(:));
+%     [yind,xind] = ind2sub(size(tmp),xyind);
+%     xfound = horcorind2coord(xind);
+%     yfound = horcorind2coord(yind);
+    
     zerr=zfound - zp;
     xerr = xfound - xp;
     yerr = yfound - yp;
+    
     
     
     
