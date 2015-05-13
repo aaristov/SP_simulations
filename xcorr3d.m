@@ -16,7 +16,7 @@ M1stats=zeros(PSFzframes,testlength); % Vectors for the maximum of xcorr2
 indM=zeros(PSFzframes,1); % index of maximum of xcorr2
 Mvect=1:PSFzframes;
 
-% statarray=zeros(6,testlength); % (xp,yp,zp,xerr,yerr,zerr)
+statarray=zeros(6,testlength); % (xp,yp,zp,xerr,yerr,zerr)
 % if length(Mnormcurve)~=PSFzframes
 %     Mnormcurve=zeros(PSFzframes,1);
 % end
@@ -65,11 +65,11 @@ for j=1:testlength    % Number of frames with random x,y,z
     %Call PSF drawing tool using generated coordinates
     [t,I1,ffimage,ph,I2,fitting,width]=gaussianfft2(n,0.1,xp,yp,zp,inputph,sphere,truncatecirle);
 %     I2=gpuArray(I2); % Put into GPU the camera frame
-%     F= I2/sum(I2(:));
-%     NoisyPhotonNum=10000;
-%     Frame=imnoise(F*NoisyPhotonNum*1e-12, 'poisson')*1e12;
+    F= I2/sum(I2(:));
+    NoisyPhotonNum=1000;
+    Frame=imnoise(F*NoisyPhotonNum*1e-12, 'poisson')*1e12;
 %      Frame=(I2); % Set camera frame
-     Frame=(I2); % Set camera frame
+%      Frame=(I2); % Set camera frame
 %     Frame=(I2)/max(I2(:)); % Normalize camera frame
 %     load('zcortable5may.mat')
     %% PSF x,y search
@@ -139,7 +139,7 @@ plot(statarray(2,:),statarray(5,:),'o');
 xlabel('y coordinate, um');
 ylabel('y error, um');
 
-% drawhistos;
+drawhistos;
 % figure(7);
 % plot(PSFzscale,Mstats,'o');
 % 
