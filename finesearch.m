@@ -1,6 +1,6 @@
 % Convert x,y,z indices to precise coordinates using correlation matrix
 
-function [xcoord,ycoord,zcorr] = finesearch(max_C2,ymax_C2,xind,yind,zind,zcortable,PSFzrange,PSFzframes)
+function [xcoord,ycoord,zcorr] = finesearch(max_C2,ymax_C2,xind,yind,zind,PSFzrange,PSFzframes)
     % max_C2 is an array [zind,xind] with values from max(xcorr2)
     
     % searching z
@@ -15,7 +15,7 @@ function [xcoord,ycoord,zcorr] = finesearch(max_C2,ymax_C2,xind,yind,zind,zcorta
     zindfound=getfitmax(zfit);
     zcoord=zind2coord(zindfound,PSFzrange,PSFzframes);
     zcorr=getcorrectedz(zcortable,zcoord);
-    %zcorr=zcoord;
+%     zcorr=zcoord;
     
     
     % searching x
