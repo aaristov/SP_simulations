@@ -48,7 +48,7 @@ for j=1:testlength    % Number of frames with random x,y,z
 %     end
 %     xp=(rand()-1/2)*FOV*0.9; % random xp, yp is set in um.
 %     yp=(rand()-1/2)*FOV*0.9;
-    xind0=int16(rand()*447)+1;
+    xind0=int16(rand()*447)+1; % avoid 32 px border 
     yind0=int16(rand()*447)+1;
     
     xp = double(xind0-225)/512*FOV;
