@@ -4,7 +4,7 @@ zrange=3000; % range for random zp in nm
 zrangeoffset=0;
 % M=zeros(PSFzframes,'gpuArray'); % Vector for the maximum of xcorr2
 % indM=zeros(PSFzframes,'gpuArray'); % index of maximum of xcorr2
-testlength=7;
+testlength=100;
 % zstatarray=zeros(1,testlength);
 Mmaxfound=zeros(testlength,1);
 M=zeros(PSFzframes,1); % Vector for the maximum of xcorr2
@@ -16,7 +16,7 @@ M1stats=zeros(PSFzframes,testlength); % Vectors for the maximum of xcorr2
 indM=zeros(PSFzframes,1); % index of maximum of xcorr2
 Mvect=1:PSFzframes;
 
-statarray=zeros(6,testlength); % (xp,yp,zp,xerr,yerr,zerr)
+% statarray=zeros(6,testlength); % (xp,yp,zp,xerr,yerr,zerr)
 % if length(Mnormcurve)~=PSFzframes
 %     Mnormcurve=zeros(PSFzframes,1);
 % end
@@ -52,8 +52,8 @@ for j=1:testlength    % Number of frames with random x,y,z
 %         zp=0;
 %     end
     %% fully random x,y
-    xp=(rand()-1/2)*FOV*0.9; % random xp, yp is set in um.
-    yp=(rand()-1/2)*FOV*0.9;
+    xp=(rand()-1/2)*FOV*0.85; % random xp, yp is set in um.
+    yp=(rand()-1/2)*FOV*0.85;
     zp=zrangeoffset+(rand()-1/2)*zrange; % Random zp is set in nm
 
    
@@ -103,7 +103,7 @@ for j=1:testlength    % Number of frames with random x,y,z
     %% index do coordinate conversion
     
     % poly2 fit
-    [xfound,yfound,zfound] = finesearch2(max_C2,ymax_C2,zarray,xind,yind,zind,PSFzrange,PSFzframes)
+    [xfound,yfound,zfound] = finesearch2(max_C2,ymax_C2,zarray,xind,yind,zind,PSFzrange,PSFzframes);
     
     % discrete conversion
 %     xfound = horcorind2coord(xind);
@@ -122,19 +122,19 @@ end
 
 %% Plots
 figure(1);
-subplot(3,1,1);
+subplot(3,2,1);
 plot(statarray(3,:),statarray(6,:),'o');
 xlabel('z coordinate, nm');
 ylabel('z error, nm');
 
 
-subplot(3,1,2);
+subplot(3,2,3);
 plot(statarray(1,:),statarray(4,:),'o');
 xlabel('x coordinate, um');
 ylabel('x error, um');
 
 
-subplot(3,1,3);
+subplot(3,2,5);
 plot(statarray(2,:),statarray(5,:),'o');
 xlabel('y coordinate, um');
 ylabel('y error, um');
