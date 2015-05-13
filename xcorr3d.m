@@ -4,7 +4,7 @@ zrange=3000; % range for random zp in nm
 zrangeoffset=0;
 % M=zeros(PSFzframes,'gpuArray'); % Vector for the maximum of xcorr2
 % indM=zeros(PSFzframes,'gpuArray'); % index of maximum of xcorr2
-testlength=1;
+testlength=5;
 % zstatarray=zeros(1,testlength);
 Mmaxfound=zeros(testlength,1);
 M=zeros(PSFzframes,1); % Vector for the maximum of xcorr2
@@ -36,11 +36,11 @@ zvector=-zrange/2:zrange/(testlength-1):zrange/2;
 
 for j=1:testlength    % Number of frames with random x,y,z
 %     zp=zrangeoffset+(rand()-1/2)*zrange; % Random zp is set in nm
-%     zp=double(zrangeoffset+int16((rand()-1/2)*zrange/100)*100); % Random zp is set in nm
+    zp=double(zrangeoffset+int16((rand()-1/2)*zrange/100)*100); % Random zp is set in nm
 %     zp=-1200;
-      zp = -PSFzrange/2 + (PSFzrange/(testlength-1))*(j-1);
+%       zp = -PSFzrange/2 + (PSFzrange/(testlength-1))*(j-1);
 %       zp=-2500;
-      zp=00;
+%       zp=200;
 %     if testlength>1
 %         zp=zrangeoffset+(j-1)/(testlength-1)*zrange-zrange/2; % Linear zp is set in nm
 %     else
@@ -48,13 +48,13 @@ for j=1:testlength    % Number of frames with random x,y,z
 %     end
 %     xp=(rand()-1/2)*FOV*0.9; % random xp, yp is set in um.
 %     yp=(rand()-1/2)*FOV*0.9;
-    xind0=int16(rand()*448);
-    yind0=int16(rand()*448);
+    xind0=int16(rand()*447)+1;
+    yind0=int16(rand()*447)+1;
     
-    xp = double(xind0-256)/512*FOV*448/512;
-    yp = double(yind0-256)/512*FOV*448/512;
+    xp = double(xind0-225)/512*FOV;
+    yp = double(yind0-225)/512*FOV;
     
-    xp=0;yp=0;
+%     xp=0;yp=0;
     
     %Call PSF drawing tool using generated coordinates
     [t,I1,ffimage,ph,I2,fitting,width]=gaussianfft2(n,0.1,xp,yp,zp,inputph,sphere,truncatecirle);
