@@ -30,7 +30,7 @@ statarray=zeros(6,testlength); % (xp,yp,zp,xerr,yerr,zerr)
 zvector=-zrange/2:zrange/(testlength-1):zrange/2;
 
 for j=1:testlength    % Number of frames with random x,y,z
-    %% discreet random coordinates
+    %% discrete random coordinates
 %     zp=double(zrangeoffset+int16((rand()-1/2)*zrange/100)*100); % Random zp is set in nm
 %     xind0=int16(rand()*447)+1; % avoid 32 px border
 %     yind0=int16(rand()*447)+1;
@@ -66,7 +66,7 @@ for j=1:testlength    % Number of frames with random x,y,z
     [t,I1,ffimage,ph,I2,fitting,width]=gaussianfft2(n,0.1,xp,yp,zp,inputph,sphere,truncatecirle);
 %     I2=gpuArray(I2); % Put into GPU the camera frame
     F= I2/sum(I2(:));
-    NoisyPhotonNum=1000;
+    NoisyPhotonNum=100;
     Frame=imnoise(F*NoisyPhotonNum*1e-12, 'poisson')*1e12;
 %      Frame=(I2); % Set camera frame
 %      Frame=(I2); % Set camera frame
