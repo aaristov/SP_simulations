@@ -1,6 +1,6 @@
 % draw histos
 
-[histox,histoy,histoz] = gethisto(statarray, 5);
+[histox,histoy,histoz] = gethisto(statarray, 10);
 
 histox1=histox(:,1);
 histox2=histox(:,2);
@@ -41,6 +41,7 @@ hold on; plot(histoxfit,'b');hold off;
 title(xtitle);
 xlabel('x (nm)');
 ylabel('counts');
+xlim([-2*xFWHM,2*xFWHM]);
 
 subplot(3,2,6);
 bar(histoy(:,1),histoy(:,2),'w');
@@ -48,11 +49,13 @@ hold on; plot(histoyfit,'b');hold off;
 title(ytitle);
 xlabel('y (nm)');
 ylabel('counts');
+xlim([-2*yFWHM,2*yFWHM]);
 
 subplot(3,2,2);
-bar(histoz(:,1),histoz(:,2),'w');
+bar(histoz(:,1),histoz(:,2),'g');
 hold on; plot(histozfit,'b');hold off;
 title(ztitle);
 xlabel('z (nm)');
 ylabel('counts');
+xlim([-2*zFWHM,2*zFWHM]);
 
